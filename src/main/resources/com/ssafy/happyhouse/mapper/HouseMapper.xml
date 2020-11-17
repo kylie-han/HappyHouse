@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.happyhouse.mapper.HouseMapper">
+   
+<!-- public List<HouseDeal> get_Deal(int currentPage, int sizePerPage, String key, String word) throws SQLException; -->
+<!-- page index 관련해서 확인해야함 -->
+<!-- public List<HouseDeal> get_Deal(int firstPage, int nextPage, String key, String word) throws SQLException; -->
+   <select id="get_Deal" resultType="com.ssafy.happyhouse.dto.HouseDeal">
+      select * from housedeal
+      <choose>
+          <when test="key.equals('apt')">
+            where AptName like CONCAT('%',#{word},'%')
+          </when>
+          <when test="key.equals('dong')">
+            where dong like CONCAT('%',#{word},'%')
+          </when>
+      </choose>
+      order by no asc
+      limit #{firstPage}, #{nextPage}
+   </select>
+<!-- public HouseInfo get_Info(String dong, String AptName) throws SQLException; -->
+   <select id="get_Info" resultType="com.ssafy.happyhouse.dto.HouseInfo">
+      select * from houseinfo
+      where dong = #{dong} and Aptname = #{AptName}
+   </select>
+<!-- public int getTotalCount(String key, String word) throws SQLException; -->
+   <select id="getTotalCount" resultType="int">
+      select count(no) from housedeal
+      <if test="'apt'.equals(key)">
+      where AptName like CONCAT('%',#{word},'%')
+      </if>
+      <if test="'dong'.equals(key)">
+      where dong like CONCAT('%',#{word},'%')
+      </if>
+   </select>
+
+
+</mapper>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.happyhouse.mapper.QnADAO">
+
+	<!-- 게시글 전체 조회 -->
+	<select id="selectQnA" resultType="qna">
+		select qna_no as qnaNo,
+			   qna_title as qnaTitle,
+			   qna_content as qnaContent,
+			   qna_userid as qnaUserid,
+			   qna_datetime as qnaDatetime,
+			   reply_content as replyContent,
+			   reply_datetime as replyDatetime,
+			   reply_userid as replyUserid
+		from qna_board
+		order by qna_no desc
+	</select>
+	
+	<!-- 게시글 상세 조회 -->
+	<select id="selectQnAByNo" parameterType="int" resultType="qna">
+		select qna_no as qnaNo,
+			   qna_title as qnaTitle,
+			   qna_content as qnaContent,
+			   qna_userid as qnaUserid,
+			   qna_datetime as qnaDatetime,
+			   reply_content as replyContent,
+			   reply_datetime as replyDatetime,
+			   reply_userid as replyUserid
+		from qna_board
+		where qna_no = #{qnaNo}
+	</select>
+	<!-- 게시글 등록 -->
+	<insert id="insertQnA" parameterType="qna">
+		insert into qna_board(
+			qna_title, 
+			qna_content, 
+			qna_userid
+		) values(
+			#{qnaTitle}, 
+			#{qnaContent}, 
+			#{qnaUserid})
+	</insert>
+	<!-- 게시글 수정 -->
+	<update id="updateQnA" parameterType="qna">
+		update qna_board
+			set qna_title = #{qnaTitle}, 
+			    qna_content = #{qnaContent}
+			where qna_no = #{qnaNo}
+	</update>
+	<!-- 게시글 답변 -->
+	<update id="updateQnAReply" parameterType="qna">
+		update qna_board
+			set reply_content = #{replyContent},
+				reply_datetime = now(),
+			    reply_userid = #{replyUserid}
+			where qna_no = #{qnaNo}
+	</update>
+	<!-- 게시글 삭제 -->
+	<delete id="deleteQnA" parameterType="int">
+		delete from qna_board
+		where qna_no = #{qnaNo}
+	</delete>
+</mapper>
+

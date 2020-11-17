@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.happyhouse.mapper.InterestAreaMapper">
+
+	<!-- 게시글 조회 -->
+	<select id="searchInterest" resultType="InterestAreaDTO">
+		select  userid, 
+				sido_name as sidoName, 
+				gugun_name as gugunName,
+				dong_name as dongName
+		from	interestarea
+		where	userid = #{userid} 
+	</select>
+	
+	<!-- 게시글 등록 -->
+	<insert id="addInterest" parameterType="InterestAreaDTO">
+		insert into interestarea(
+			userid, sido_name, gugun_name, dong_name
+		) values (
+			#{userid}, #{sidoName}, #{gugunName}, #{dongName}
+		)
+	</insert>
+
+
+	<!-- 게시글 삭제 -->
+	<delete id="delInterest" parameterType="InterestAreaDTO">
+		delete 
+		  from interestarea 
+		 where userid = #{userid} and dong_name = #{dongName}
+	</delete>
+	
+</mapper>
+

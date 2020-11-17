@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.happyhouse.mapper.LoginMapper">
+
+	<!-- public MemberDto login(String userid, String userpwd) throws SQLException; -->
+	<select id="login" resultType="com.ssafy.happyhouse.dto.MemberDto">
+		select * from userinfo
+		where userid = #{userid} and userpwd = #{userpwd}
+	</select>		
+	
+	<!-- public void join(MemberDto memberDto) throws SQLException; -->
+	<insert id="join">
+		insert into userinfo(userid, username, userpwd, email, phone)
+		values(#{userid}, #{username}, #{userpwd}, #{email},#{phone})
+	</insert>
+	
+	<!-- public void modify(MemberDto memberDto); -->
+	<update id="modify">
+		update userinfo set username = #{username}, userpwd = #{userpwd}, email = #{email}, phone = #{phone}
+		where userid = #{userid}
+	</update>
+	
+	<!-- public void withdrawal(String userid); -->
+	<delete id="withdrawal">
+		delete from userinfo where userid = #{userid}
+	</delete>
+	
+	<!-- public String sendPwd(String userid, String email); -->
+	<select id="sendPwd" resultType="string">
+		select userpwd from userinfo
+		where userid = #{userid} and email = #{email}
+	</select>
+</mapper>
+
+
+
+
+
+
